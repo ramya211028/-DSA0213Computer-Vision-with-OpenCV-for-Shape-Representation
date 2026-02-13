@@ -1,0 +1,22 @@
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+
+# Get uploaded image name
+image_name = list(uploaded.keys())[0]
+
+# Convert uploaded file to image matrix
+file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+
+print(img.shape)   # Check image loaded
+kernel = np.array([[1,1,1],
+                   [1,-8,1],
+                   [1,1,1]])
+
+lap = cv2.filter2D(img, -1, kernel)
+sharpened = cv2.subtract(img, lap)
+
+plt.imshow(sharpened, cmap='gray')
+plt.title("Exp17: Laplacian Diagonal Mask")
+plt.axis('off')
