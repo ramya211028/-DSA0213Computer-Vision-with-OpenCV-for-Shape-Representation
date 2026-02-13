@@ -1,22 +1,40 @@
-import numpy as np
 import cv2
-from matplotlib import pyplot as plt
+import numpy as np
+from google.colab.patches import cv2_imshow
 
-# Get uploaded image name
-image_name = list(uploaded.keys())[0]
+# Read your image
+img = cv2.imread("newspaper.png")
 
-# Convert uploaded file to image matrix
-file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
-img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+# Check if loaded
+if img is None:
+    print("Error: Image not loaded!")
+else:
+    print("Image Loaded Successfully")
 
-print(img.shape)   # Check image loaded
-kernel = np.array([[1,1,1],
-                   [1,-8,1],
-                   [1,1,1]])
+    # Resize image
+    img = cv2.resize(img, (600, 600))
 
-lap = cv2.filter2D(img, -1, kernel)
-sharpened = cv2.subtract(img, lap)
+    # Source points (adjust if needed)
+    pts1 = np.float32([[100,150],   # Top Left
+                       [500,120],   # Top Right
+                       [120,500],   # Bottom Left
+                       [520,520]])  # Bottom Right
 
-plt.imshow(sharpened, cmap='gray')
-plt.title("Exp17: Laplacian Diagonal Mask")
-plt.axis('off')
+    # Destination points (perfect rectangle)
+    pts2 = np.float32([[0,0],
+                       [500,0],
+                       [0,500],
+                       [500,500]])
+
+    # Compute DLT (Perspective Matrix)
+    matrix = cv2.getPerspectiveTransform(pts1, pts2)
+
+    # Apply transformation
+    result = cv2.warpPerspective(img, matrix, (500,500))
+
+    # Show results
+    print("Original Image")
+    cv2_imshow(img)
+
+    print("DLT Output")
+    cv2_imshow(result)
