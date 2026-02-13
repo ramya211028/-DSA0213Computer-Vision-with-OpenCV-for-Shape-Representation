@@ -1,0 +1,43 @@
+# Import libraries
+.............................;/import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read uploaded image
+img = cv2.imread("Fronalpstock_big.jpg")
+
+# Check if image loaded
+if img is None:
+    print("Error: Image not loaded")
+else:
+    # Convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Apply Sobel X and Y
+    sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+    sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+
+    # Combine both edges
+    sobelxy = cv2.magnitude(sobelx, sobely)
+    sobelxy = np.uint8(sobelxy)
+
+    # Display images
+    plt.figure(figsize=(15,5))
+
+    plt.subplot(1,3,1)
+    plt.title("Original Image")
+    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    plt.axis("off")
+
+    plt.subplot(1,3,2)
+    plt.title("Sobel X")
+    sobelx_display = np.uint8(np.absolute(sobelx))
+    plt.imshow(sobelx_display, cmap='gray')
+    plt.axis("off")
+
+    plt.subplot(1,3,3)
+    plt.title("Sobel XY Combined")
+    plt.imshow(sobelxy, cmap='gray')
+    plt.axis("off")
+
+    plt.show()
