@@ -1,0 +1,11 @@
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+image_name = list(uploaded.keys())[0]
+file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+blur = cv2.GaussianBlur(img, (5,5), 0)
+sharpened = cv2.subtract(img, blur)
+plt.imshow(sharpened, cmap='gray')
+plt.title("Exp 19: Unsharp Masking")
+plt.axis('off')
