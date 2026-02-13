@@ -1,0 +1,17 @@
+from google.colab import files
+uploaded = files.upload()
+import cv2, numpy as np
+from matplotlib import pyplot as plt
+image_name = list(uploaded.keys())[0]
+file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+x,y,w,h = 100,100,200,200
+cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+obj = img[y:y+h, x:x+w]
+plt.subplot(1,2,1)
+plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+plt.title("Detected Object")
+plt.subplot(1,2,2)
+plt.imshow(cv2.cvtColor(obj, cv2.COLOR_BGR2RGB))
+plt.title("Extracted Object")
+plt.show()
