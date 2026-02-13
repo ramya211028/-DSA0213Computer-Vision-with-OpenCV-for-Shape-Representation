@@ -1,0 +1,12 @@
+import cv2
+import numpy as np
+from google.colab import files
+from matplotlib import pyplot as plt
+uploaded = files.upload()
+img = cv2.imread(list(uploaded.keys())[0])
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+crop = img[50:200, 50:200]
+img_copy = img.copy()
+img_copy[300:450, 300:450] = crop
+plt.imshow(img_copy)
+plt.axis('off')
