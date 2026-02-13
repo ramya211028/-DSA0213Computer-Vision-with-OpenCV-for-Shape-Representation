@@ -1,0 +1,36 @@
+# Import libraries
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read uploaded image
+img = cv2.imread("Fronalpstock_big.jpg")
+
+# Check if image loaded
+if img is None:
+    print("Error: Image not loaded")
+else:
+    # Convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Apply Sobel operator along X-axis
+    sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+
+    # Convert to absolute and uint8
+    sobelx = np.absolute(sobelx)
+    sobelx = np.uint8(sobelx)
+
+    # Display result
+    plt.figure(figsize=(12,5))
+
+    plt.subplot(1,2,1)
+    plt.title("Original Image")
+    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    plt.axis("off")
+
+    plt.subplot(1,2,2)
+    plt.title("Sobel X Edge Detection")
+    plt.imshow(sobelx, cmap='gray')
+    plt.axis("off")
+
+    plt.show()
