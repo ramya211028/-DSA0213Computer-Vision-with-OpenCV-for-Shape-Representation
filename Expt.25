@@ -1,0 +1,12 @@
+import cv2
+import numpy as np
+from google.colab import files
+from matplotlib import pyplot as plt
+uploaded = files.upload()
+img = cv2.imread(list(uploaded.keys())[0])
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+kernel = np.ones((5,5), np.uint8)
+erosion = cv2.erode(gray, kernel, iterations=1)
+plt.imshow(erosion, cmap='gray')
+plt.axis('off')
