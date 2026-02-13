@@ -1,0 +1,13 @@
+import cv2
+import numpy as np
+from google.colab import files
+from matplotlib import pyplot as plt
+uploaded = files.upload()
+img = cv2.imread(list(uploaded.keys())[0])
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+kernel = np.array([[0,-1,0],
+                   [-1,4,-1],
+                   [0,-1,0]])
+boundary = cv2.filter2D(img, -1, kernel)
+plt.imshow(boundary)
+plt.axis('off')
