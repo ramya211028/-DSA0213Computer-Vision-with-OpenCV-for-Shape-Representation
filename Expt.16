@@ -1,0 +1,23 @@
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+
+# Get uploaded image name
+image_name = list(uploaded.keys())[0]
+
+# Convert uploaded file to image matrix
+file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+
+print(img.shape)   # Check image loaded
+# Laplacian kernel
+kernel = np.array([[0,1,0],
+                   [1,-4,1],
+                   [0,1,0]])
+
+lap = cv2.filter2D(img, -1, kernel)
+sharpened = cv2.subtract(img, lap)
+
+plt.imshow(sharpened, cmap='gray')
+plt.title("Exp16: Laplacian Negative Center")
+plt.axis('off')
