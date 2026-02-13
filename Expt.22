@@ -1,0 +1,14 @@
+import cv2
+import numpy as np
+from google.colab import files
+from matplotlib import pyplot as plt
+uploaded = files.upload()
+img = cv2.imread(list(uploaded.keys())[0])
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+watermark = img.copy()
+text = "OpenCV Watermark"
+cv2.putText(watermark, text, (50,100),
+            cv2.FONT_HERSHEY_SIMPLEX, 2, (255,0,0), 3)
+plt.imshow(watermark)
+plt.axis('off')
+
