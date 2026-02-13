@@ -1,0 +1,13 @@
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+image_name = list(uploaded.keys())[0]
+file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+kernel = np.array([[0,-1,0],
+                   [-1,5,-1],
+                   [0,-1,0]])
+sharpened = cv2.filter2D(img, -1, kernel)
+plt.imshow(sharpened, cmap='gray')
+plt.title("Exp 18: Laplacian Positive Center Sharpening")
+plt.axis('off')
