@@ -1,0 +1,14 @@
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+image_name = list(uploaded.keys())[0]
+file_bytes = np.asarray(bytearray(uploaded[image_name]), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+gx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
+gy = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
+grad = cv2.magnitude(gx, gy)
+grad = cv2.convertScaleAbs(grad)
+sharpened = cv2.add(img, grad)
+plt.imshow(sharpened, cmap='gray')
+plt.title("Exp 21: Gradient Masking Sharpening")
+plt.axis('off')
